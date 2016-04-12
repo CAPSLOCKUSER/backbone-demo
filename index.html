@@ -2,8 +2,7 @@
 <html>
 	<head>
 		<title>Backbone demo</title>
-		<link rel="stylesheet" href="css/demo.css" type="text/css" media="screen" />
-		
+
 		<!-- Embedded templates -->
 		<script type="text/jquery-x-template" id="comment-template">
 			<button class="edit">Edit</button>
@@ -16,7 +15,7 @@
 			<strong>Comment edit</strong>
 			<form>
 				<input type="text" name="author" value="{{author}}" placeholder="Author name" class="author" /><br />
-				<textarea name="text" placeholder"Comment text" class="text">{{text}}</textarea>
+				<textarea name="text" placeholder="Comment text" class="text">{{text}}</textarea>
 				<button class="submit"> Submit </button>
 				<button class="cancel"> Cancel </button>
 			</form>
@@ -31,18 +30,9 @@
 			<ul class="commentlist"></ul>
 		</div>
 		<!-- Application init -->
-		<script type="text/javascript" src="js/lib/require.js"></script>
+		<script type="text/javascript" src="build/bundle.js"></script>
 		<script type="text/javascript">
-			require.config({
-				baseUrl: 'js/',
-				paths: {
-					'backbone': 'lib/backbone',
-					'underscore': 'lib/underscore',
-					'jquery': 'lib/jquery',
-					'mustache': 'lib/mustache'
-				}
-			});
-			require(['app/app'], function (App) {
+			$(function() {
 				new App({
 					el: $('#application')
 				});

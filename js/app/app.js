@@ -10,14 +10,19 @@
  * @extends Backbone.View
  * @author Bodnar Istvan <istvan@gawker.com>
  */
+
+import 'demo.css';
+
 define([
 	'backbone',
+	'jquery',
 	'model/commentcollection',
 	'view/newbuttonview',
 	'view/randombuttonview',
 	'view/listview'
 ], function (
 	Backbone,
+	$,
 	CommentCollection,
 	NewButtonView,
 	RandomButtonView,
@@ -47,7 +52,11 @@ define([
 		}
 	);
 
-	return App;
+	/* i'm not sure about this at all */
+	window.App = App;
+	window.$ = $;
+
+	//return App;
 });
 
 
