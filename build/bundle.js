@@ -24724,6 +24724,12 @@
 	     * @returns {Boolean} Returns false to stop propagation
 	     */
 	    createComment: function createComment() {
+	      $('.commentform button.cancel').click();
+	
+	      if ($('.commentform').length) {
+	        return false;
+	      }
+	
 	      // create new comment model
 	      var comment = new CommentModel({});
 	

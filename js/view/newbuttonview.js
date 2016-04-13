@@ -38,6 +38,12 @@ define([
        * @returns {Boolean} Returns false to stop propagation
        */
       createComment: function () {
+        $('.commentform button.cancel').click();
+
+        if ($('.commentform').length) {
+          return false;
+        }
+
         // create new comment model
         var comment = new CommentModel({});
 
