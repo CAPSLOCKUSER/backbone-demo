@@ -90,7 +90,20 @@ define([
        * @returns {Boolean} Returns false to stop propagation
        */
       cancel: function () {
-        // clean up form
+        const author = this.$el.find('.author').val();
+        const text = this.$el.find('.text').val();
+        const savedAuthor = this.model.get('author') || '';
+        const savedText = this.model.get('text') || '';
+        const isAuthorChanged = (author !== savedAuthor);
+        const isTextChanged = (text !== savedText);
+        const isChanged = (isAuthorChanged || isTextChanged);
+
+        if (isChanged) {
+          if (!confirm('There are unsaved changes. Do you want to discard it?')) {
+            return false;
+          }
+        }
+
         this.remove();
         return false;
       },

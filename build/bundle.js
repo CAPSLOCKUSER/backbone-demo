@@ -49,34 +49,34 @@
 	__webpack_require__(1);
 	
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(9), __webpack_require__(10), __webpack_require__(12), __webpack_require__(15), __webpack_require__(16)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, $, CommentCollection, NewButtonView, RandomButtonView, CommentlistView) {
-		var App = Backbone.View.extend(
-		/** @lends App.prototype */
-		{
-			/**
-	   * Initialize new application instance
-	   */
-			initialize: function initialize() {
-				// create empty comment collection
-				var collection = new CommentCollection();
+	  var App = Backbone.View.extend(
+	  /** @lends App.prototype */
+	  {
+	    /**
+	     * Initialize new application instance
+	     */
+	    initialize: function initialize() {
+	      // create empty comment collection
+	      var collection = new CommentCollection();
 	
-				// bind the NewButtonView to the already rendered 'newcomment' DOM element, we'll need to know the
-				// collection to work with so FormView can insert the new comment properly
-				new NewButtonView({ collection: collection, el: this.$el.find('.newcomment') });
+	      // bind the NewButtonView to the already rendered 'newcomment' DOM element, we'll need to know the
+	      // collection to work with so FormView can insert the new comment properly
+	      new NewButtonView({ collection: collection, el: this.$el.find('.newcomment') });
 	
-				// bind the RandomButtonView to the already rendered 'randomcomment' DOM element
-				new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
+	      // bind the RandomButtonView to the already rendered 'randomcomment' DOM element
+	      new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
 	
-				// create comment list view, assign our empty collection
-				var listview = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
-				listview.render();
-			}
-		});
+	      // create comment list view, assign our empty collection
+	      var listview = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
+	      listview.render();
+	    }
+	  });
 	
-		/* i'm not sure about this at all */
-		window.App = App;
-		window.$ = $;
+	  /* i'm not sure about this at all */
+	  window.App = App;
+	  window.$ = $;
 	
-		//return App;
+	  //return App;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	
 	/**
@@ -24640,17 +24640,17 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(11)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, CommentModel) {
-		var CommentCollection = Backbone.Collection.extend(
-		/** @lends CommentCollection.prototype */
-		{
-			/**
-	   * Sets the allowed type of contained models
-	   * @type Backbone.Model
-	   */
-			model: CommentModel
-		});
+	  var CommentCollection = Backbone.Collection.extend(
+	  /** @lends CommentCollection.prototype */
+	  {
+	    /**
+	     * Sets the allowed type of contained models
+	     * @type Backbone.Model
+	     */
+	    model: CommentModel
+	  });
 	
-		return CommentCollection;
+	  return CommentCollection;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -24668,20 +24668,20 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone) {
-		var CommentModel = Backbone.Model.extend(
-		/** @lends CommentModel.prototype */
-		{
-			/**
-	   * Sample method to change the text of a comment model
-	   */
-			reverseText: function reverseText() {
-				if (this.has('text') && this.get('text').length > 0) {
-					this.set('text', this.get('text').split('').reverse().join(''));
-				}
-			}
-		});
+	  var CommentModel = Backbone.Model.extend(
+	  /** @lends CommentModel.prototype */
+	  {
+	    /**
+	     * Sample method to change the text of a comment model
+	     */
+	    reverseText: function reverseText() {
+	      if (this.has('text') && this.get('text').length > 0) {
+	        this.set('text', this.get('text').split('').reverse().join(''));
+	      }
+	    }
+	  });
 	
-		return CommentModel;
+	  return CommentModel;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -24698,57 +24698,57 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(11), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, CommentModel, FormView) {
-		var NewButtonView = Backbone.View.extend(
-		/** @lends NewButtonView.prototype */
-		{
-			/**
-	   * The map of delegated event handlers
-	   * @type Object
-	   */
-			events: {
-				'click': 'createComment'
-			},
+	  var NewButtonView = Backbone.View.extend(
+	  /** @lends NewButtonView.prototype */
+	  {
+	    /**
+	     * The map of delegated event handlers
+	     * @type Object
+	     */
+	    events: {
+	      'click': 'createComment'
+	    },
 	
-			/**
-	   * Initialize view, make sure button has a comment collection to work with
-	   */
-			initialize: function initialize() {
-				if (this.collection === undefined) {
-					throw 'NoCollectionDefined';
-				}
-			},
+	    /**
+	     * Initialize view, make sure button has a comment collection to work with
+	     */
+	    initialize: function initialize() {
+	      if (this.collection === undefined) {
+	        throw 'NoCollectionDefined';
+	      }
+	    },
 	
-			/**
-	   * Click event handler that first creates a new empty comment model, and assigns the model to a FormView instance.
-	   * FormView will handle internally new comment creation and existing comment editing.
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			createComment: function createComment() {
-				// create new comment model
-				var comment = new CommentModel({});
+	    /**
+	     * Click event handler that first creates a new empty comment model, and assigns the model to a FormView instance.
+	     * FormView will handle internally new comment creation and existing comment editing.
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    createComment: function createComment() {
+	      // create new comment model
+	      var comment = new CommentModel({});
 	
-				// render form view right after new button
-				var formview = new FormView({ model: comment });
-				this.$el.after(formview.render().$el);
+	      // render form view right after new button
+	      var formview = new FormView({ model: comment });
+	      this.$el.after(formview.render().$el);
 	
-				// add saved model to collection after form was submitted successfully
-				formview.on('success', this.handleFormSuccess, this);
+	      // add saved model to collection after form was submitted successfully
+	      formview.on('success', this.handleFormSuccess, this);
 	
-				// finally, return false to stop event propagation
-				return false;
-			},
+	      // finally, return false to stop event propagation
+	      return false;
+	    },
 	
-			/**
-	   * Method to handle FormView success event
-	   * @param {CommentModel} model Model data returned by FormViews save request
-	   */
-			handleFormSuccess: function handleFormSuccess(model) {
-				this.collection.add(model);
-			}
+	    /**
+	     * Method to handle FormView success event
+	     * @param {CommentModel} model Model data returned by FormViews save request
+	     */
+	    handleFormSuccess: function handleFormSuccess(model) {
+	      this.collection.add(model);
+	    }
 	
-		});
+	  });
 	
-		return NewButtonView;
+	  return NewButtonView;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -24765,117 +24765,130 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, Mustache) {
-		var FormView = Backbone.View.extend(
-		/** @lends FormView.prototype */
-		{
-			/**
-	   * Html tag name of the container element that'll be created when initializing new instance.
-	   * This container is then accessible via the this.el (native DOM node) or this.$el (jQuery node)
-	   * variables.
-	   * @type String
-	   */
-			tagName: 'div',
+	  var FormView = Backbone.View.extend(
+	  /** @lends FormView.prototype */
+	  {
+	    /**
+	     * Html tag name of the container element that'll be created when initializing new instance.
+	     * This container is then accessible via the this.el (native DOM node) or this.$el (jQuery node)
+	     * variables.
+	     * @type String
+	     */
+	    tagName: 'div',
 	
-			/**
-	   * CSS class name of the container element
-	   * @type String
-	   */
-			className: 'commentform',
+	    /**
+	     * CSS class name of the container element
+	     * @type String
+	     */
+	    className: 'commentform',
 	
-			/**
-	   * The map of delegated event handlers
-	   * @type Object
-	   */
-			events: {
-				'click .submit': 'submit',
-				'click .cancel': 'cancel'
-			},
+	    /**
+	     * The map of delegated event handlers
+	     * @type Object
+	     */
+	    events: {
+	      'click .submit': 'submit',
+	      'click .cancel': 'cancel'
+	    },
 	
-			/**
-	   * View init method, subscribing to model events
-	   */
-			initialize: function initialize() {
-				this.model.on('change', this.updateFields, this);
-				this.model.on('destroy', this.remove, this);
-			},
+	    /**
+	     * View init method, subscribing to model events
+	     */
+	    initialize: function initialize() {
+	      this.model.on('change', this.updateFields, this);
+	      this.model.on('destroy', this.remove, this);
+	    },
 	
-			/**
-	   * Render form element from a template using Mustache
-	   * @returns {FormView} Returns the view instance itself, to allow chaining view commands.
-	   */
-			render: function render() {
-				var template = $('#form-template').text();
-				var template_vars = {
-					author: this.model.get('author'),
-					text: this.model.get('text')
-				};
-				this.$el.html(Mustache.to_html(template, template_vars));
-				return this;
-			},
+	    /**
+	     * Render form element from a template using Mustache
+	     * @returns {FormView} Returns the view instance itself, to allow chaining view commands.
+	     */
+	    render: function render() {
+	      var template = $('#form-template').text();
+	      var template_vars = {
+	        author: this.model.get('author'),
+	        text: this.model.get('text')
+	      };
+	      this.$el.html(Mustache.to_html(template, template_vars));
+	      return this;
+	    },
 	
-			/**
-	   * Submit button click handler
-	   * Sets new values from form on model, triggers a success event and cleans up the form
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			submit: function submit() {
-				// set values from form on model
-				this.model.set({
-					author: this.$el.find('.author').val(),
-					text: this.$el.find('.text').val()
-				});
+	    /**
+	     * Submit button click handler
+	     * Sets new values from form on model, triggers a success event and cleans up the form
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    submit: function submit() {
+	      // set values from form on model
+	      this.model.set({
+	        author: this.$el.find('.author').val(),
+	        text: this.$el.find('.text').val()
+	      });
 	
-				// set an id if model was a new instance
-				// note: this is usually done automatically when items are stored in an API
-				if (this.model.isNew()) {
-					this.model.id = Math.floor(Math.random() * 1000);
-				}
+	      // set an id if model was a new instance
+	      // note: this is usually done automatically when items are stored in an API
+	      if (this.model.isNew()) {
+	        this.model.id = Math.floor(Math.random() * 1000);
+	      }
 	
-				// trigger the 'success' event on form, with the returned model as the only parameter
-				this.trigger('success', this.model);
+	      // trigger the 'success' event on form, with the returned model as the only parameter
+	      this.trigger('success', this.model);
 	
-				// remove form view from DOM and memory
-				this.remove();
-				return false;
-			},
+	      // remove form view from DOM and memory
+	      this.remove();
+	      return false;
+	    },
 	
-			/**
-	  * Cancel button click handler
-	  * Cleans up form view from DOM
-	  * @returns {Boolean} Returns false to stop propagation
-	  */
-			cancel: function cancel() {
-				// clean up form
-				this.remove();
-				return false;
-			},
+	    /**
+	     * Cancel button click handler
+	     * Cleans up form view from DOM
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    cancel: function cancel() {
+	      var author = this.$el.find('.author').val();
+	      var text = this.$el.find('.text').val();
+	      var savedAuthor = this.model.get('author') || '';
+	      var savedText = this.model.get('text') || '';
+	      var isAuthorChanged = author !== savedAuthor;
+	      var isTextChanged = text !== savedText;
+	      var isChanged = isAuthorChanged || isTextChanged;
 	
-			/**
-	   * Update view if the model changes, helps keep two edit forms for the same model in sync
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			updateFields: function updateFields() {
-				this.$el.find('.author').val(this.model.get('author'));
-				this.$el.find('.text').val(this.model.get('text'));
-				return false;
-			},
+	      if (isChanged) {
+	        if (!confirm('There are unsaved changes. Do you want to discard it?')) {
+	          return false;
+	        }
+	      }
 	
-			/**
-	   * Override the default view remove method with custom actions
-	   */
-			remove: function remove() {
-				// unsubscribe from all model events with this context
-				this.model.off(null, null, this);
+	      this.remove();
+	      return false;
+	    },
 	
-				// delete container form DOM
-				this.$el.remove();
+	    /**
+	     * Update view if the model changes, helps keep two edit forms for the same model in sync
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    updateFields: function updateFields() {
+	      this.$el.find('.author').val(this.model.get('author'));
+	      this.$el.find('.text').val(this.model.get('text'));
+	      return false;
+	    },
 	
-				// call backbones default view remove method
-				Backbone.View.prototype.remove.call(this);
-			}
-		});
+	    /**
+	     * Override the default view remove method with custom actions
+	     */
+	    remove: function remove() {
+	      // unsubscribe from all model events with this context
+	      this.model.off(null, null, this);
 	
-		return FormView;
+	      // delete container form DOM
+	      this.$el.remove();
+	
+	      // call backbones default view remove method
+	      Backbone.View.prototype.remove.call(this);
+	    }
+	  });
+	
+	  return FormView;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -25468,45 +25481,45 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(11)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, CommentModel) {
-		var RandomButtonView = Backbone.View.extend(
-		/** @lends RandomButtonView.prototype */
-		{
-			/**
-	   * The map of delegated event handlers
-	   * @type Object
-	   */
-			events: {
-				'click': 'createComment'
-			},
+	  var RandomButtonView = Backbone.View.extend(
+	  /** @lends RandomButtonView.prototype */
+	  {
+	    /**
+	     * The map of delegated event handlers
+	     * @type Object
+	     */
+	    events: {
+	      'click': 'createComment'
+	    },
 	
-			/**
-	   * Initialize view, make sure button has a comment collection to work with
-	   */
-			initialize: function initialize() {
-				if (this.collection === undefined) {
-					throw 'NoCollectionDefined';
-				}
-			},
+	    /**
+	     * Initialize view, make sure button has a comment collection to work with
+	     */
+	    initialize: function initialize() {
+	      if (this.collection === undefined) {
+	        throw 'NoCollectionDefined';
+	      }
+	    },
 	
-			/**
-	   * Click event handler that creates 5 new comment models with random texts
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			createComment: function createComment() {
-				var i;
-				for (i = 0; i < 5; i++) {
-					this.collection.add(new CommentModel({
-						text: 'Random comment ' + Math.floor(Math.random() * 100),
-						author: 'serif'
-					}));
-				}
+	    /**
+	     * Click event handler that creates 5 new comment models with random texts
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    createComment: function createComment() {
+	      var i;
+	      for (i = 0; i < 5; i++) {
+	        this.collection.add(new CommentModel({
+	          text: 'Random comment ' + Math.floor(Math.random() * 100),
+	          author: 'serif'
+	        }));
+	      }
 	
-				// return false to stop event propagation
-				return false;
-			}
-		});
+	      // return false to stop event propagation
+	      return false;
+	    }
+	  });
 	
-		return RandomButtonView;
+	  return RandomButtonView;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -25524,40 +25537,40 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(17)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, CommentView) {
-		var CommentlistView = Backbone.View.extend(
-		/** @lends CommentlistView.prototype */
-		{
-			/**
-	   * Subscribe to collection 'reset' and 'add' events
-	   */
-			initialize: function initialize() {
-				this.collection.on('add reset', this.render, this);
-			},
+	  var CommentlistView = Backbone.View.extend(
+	  /** @lends CommentlistView.prototype */
+	  {
+	    /**
+	     * Subscribe to collection 'reset' and 'add' events
+	     */
+	    initialize: function initialize() {
+	      this.collection.on('add reset', this.render, this);
+	    },
 	
-			/**
-	   * Render comments using CommentView instances for each model in the collection.
-	   * @returns {CommentlistView} Returns the view instance itself, to allow chaining view commands.
-	   */
-			render: function render() {
-				// first clean up the container
-				this.$el.empty();
+	    /**
+	     * Render comments using CommentView instances for each model in the collection.
+	     * @returns {CommentlistView} Returns the view instance itself, to allow chaining view commands.
+	     */
+	    render: function render() {
+	      // first clean up the container
+	      this.$el.empty();
 	
-				// iterate over models in collection and render comments using the CommentView view class
-				this.collection.each(function (item) {
-					// create new CommentView instance
-					var commentview = new CommentView({
-						model: item
-					});
+	      // iterate over models in collection and render comments using the CommentView view class
+	      this.collection.each(function (item) {
+	        // create new CommentView instance
+	        var commentview = new CommentView({
+	          model: item
+	        });
 	
-					// append rendered CommentView instance to CommentlistViews container
-					this.$el.append(commentview.render().$el);
-				}, this);
+	        // append rendered CommentView instance to CommentlistViews container
+	        this.$el.append(commentview.render().$el);
+	      }, this);
 	
-				return this;
-			}
-		});
+	      return this;
+	    }
+	  });
 	
-		return CommentlistView;
+	  return CommentlistView;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -25577,129 +25590,129 @@
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(14), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, Mustache, FormView) {
-		'use strict';
+	  'use strict';
 	
-		var CommentView = Backbone.View.extend(
-		/** @lends CommentView.prototype */
-		{
-			/**
-	   * Html tag name of the container element that'll be created when initializing new instance.
-	   * This container is then accessible via the this.el (native DOM node) or this.$el (jQuery node)
-	   * variables.
-	   * @type String
-	   */
-			tagName: 'li',
+	  var CommentView = Backbone.View.extend(
+	  /** @lends CommentView.prototype */
+	  {
+	    /**
+	     * Html tag name of the container element that'll be created when initializing new instance.
+	     * This container is then accessible via the this.el (native DOM node) or this.$el (jQuery node)
+	     * variables.
+	     * @type String
+	     */
+	    tagName: 'li',
 	
-			/**
-	   * CSS class name of the container element
-	   * @type String
-	   */
-			className: 'comment',
+	    /**
+	     * CSS class name of the container element
+	     * @type String
+	     */
+	    className: 'comment',
 	
-			/**
-	   * The map of delegated event handlers
-	   * @type Object
-	   */
-			events: {
-				'click .edit': 'edit',
-				'click .delete': 'delete',
-				'click .reverse': 'reverse'
-			},
+	    /**
+	     * The map of delegated event handlers
+	     * @type Object
+	     */
+	    events: {
+	      'click .edit': 'edit',
+	      'click .delete': 'delete',
+	      'click .reverse': 'reverse'
+	    },
 	
-			/**
-	   * View init method, subscribing to model events
-	   */
-			initialize: function initialize() {
-				this.model.on('change', this.render, this);
-				this.model.on('destroy', this.remove, this);
-			},
+	    /**
+	     * View init method, subscribing to model events
+	     */
+	    initialize: function initialize() {
+	      this.model.on('change', this.render, this);
+	      this.model.on('destroy', this.remove, this);
+	    },
 	
-			/**
-	   * Render the new comment DOM element from a template using Mustache
-	   * @returns {CommentView} Returns the view instance itself, to allow chaining view commands.
-	   */
-			render: function render() {
-				// template is rendered in the main html, inside a <script /> tag with the specified id
-				var template = $('#comment-template').text();
+	    /**
+	     * Render the new comment DOM element from a template using Mustache
+	     * @returns {CommentView} Returns the view instance itself, to allow chaining view commands.
+	     */
+	    render: function render() {
+	      // template is rendered in the main html, inside a <script /> tag with the specified id
+	      var template = $('#comment-template').text();
 	
-				// variables passed to the template for rendering
-				var template_vars = {
-					author: this.model.get('author'),
-					text: this.model.get('text')
-				};
+	      // variables passed to the template for rendering
+	      var template_vars = {
+	        author: this.model.get('author'),
+	        text: this.model.get('text')
+	      };
 	
-				// set the inner html of the container element to the Mustache rendered output
-				this.$el.html(Mustache.to_html(template, template_vars));
-				return this;
-			},
+	      // set the inner html of the container element to the Mustache rendered output
+	      this.$el.html(Mustache.to_html(template, template_vars));
+	      return this;
+	    },
 	
-			/**
-	   * Edit button click handler
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			edit: function edit() {
-				// create new FormView instance to edit the comment
-				var formview = new FormView({ model: this.model });
+	    /**
+	     * Edit button click handler
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    edit: function edit() {
+	      // create new FormView instance to edit the comment
+	      var formview = new FormView({ model: this.model });
 	
-				// insert FormView instance after the comment container
-				this.$el.after(formview.render().$el);
+	      // insert FormView instance after the comment container
+	      this.$el.after(formview.render().$el);
 	
-				// listen to save success event to handle successful form submit event
-				formview.on('success', this.handleEditSuccess, this);
-				return false;
-			},
+	      // listen to save success event to handle successful form submit event
+	      formview.on('success', this.handleEditSuccess, this);
+	      return false;
+	    },
 	
-			/**
-	   * Delete button click handler
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			delete: function _delete() {
-				// delete model from memory
-				this.model.id = undefined;
-				this.model.destroy();
+	    /**
+	     * Delete button click handler
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    delete: function _delete() {
+	      // delete model from memory
+	      this.model.id = undefined;
+	      this.model.destroy();
 	
-				// note: since the view is subscribed to the models 'destroy' event, view will be also removed
-				// automatically, no need to delete container form DOM
-				return false;
-			},
+	      // note: since the view is subscribed to the models 'destroy' event, view will be also removed
+	      // automatically, no need to delete container form DOM
+	      return false;
+	    },
 	
-			/**
-	   * "Reverse" button click handler
-	   * @returns {Boolean} Returns false to stop propagation
-	   */
-			reverse: function reverse() {
-				// run the models sample text reverse method
-				this.model.reverseText();
-				return false;
-			},
+	    /**
+	     * "Reverse" button click handler
+	     * @returns {Boolean} Returns false to stop propagation
+	     */
+	    reverse: function reverse() {
+	      // run the models sample text reverse method
+	      this.model.reverseText();
+	      return false;
+	    },
 	
-			/**
-	   * Handles form save success event
-	   * @params {CommentModel} model Model returned by successful comment "save" action
-	   */
-			handleEditSuccess: function handleEditSuccess(model) {
-				// create a new notification that is removed after 5 seconds
-				var $notification = $('<div />').text('Comment by ' + model.get('author') + ' is saved.').addClass('notification');
+	    /**
+	     * Handles form save success event
+	     * @params {CommentModel} model Model returned by successful comment "save" action
+	     */
+	    handleEditSuccess: function handleEditSuccess(model) {
+	      // create a new notification that is removed after 5 seconds
+	      var $notification = $('<div />').text('Comment by ' + model.get('author') + ' is saved.').addClass('notification');
 	
-				// append notification to edited comments container element
-				this.$el.append($notification);
+	      // append notification to edited comments container element
+	      this.$el.append($notification);
 	
-				// remove notification after 5 seconds
-				setTimeout(function () {
-					$notification.remove();
-				}, 5000);
-			},
+	      // remove notification after 5 seconds
+	      setTimeout(function () {
+	        $notification.remove();
+	      }, 5000);
+	    },
 	
-			/**
-	   * Override the default view remove method with custom actions
-	   */
-			remove: function remove() {
-				// remove container element from DOM
-				this.$el.remove();
-			}
-		});
+	    /**
+	     * Override the default view remove method with custom actions
+	     */
+	    remove: function remove() {
+	      // remove container element from DOM
+	      this.$el.remove();
+	    }
+	  });
 	
-		return CommentView;
+	  return CommentView;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }
