@@ -7,22 +7,20 @@
  * @author Bodnar Istvan <istvan@gawker.com>
  */
 define([
-	'backbone',
-	'model/commentmodel'
-], function (
-	Backbone,
-	CommentModel
-) {
-	var CommentCollection = Backbone.Collection.extend(
-	/** @lends CommentCollection.prototype */
-		{
-			/**
-			 * Sets the allowed type of contained models
-			 * @type Backbone.Model
-			 */
-			model: CommentModel
-		}
-	);
+  'backbone',
+  'model/commentmodel'
+], function (Backbone,
+             CommentModel) {
+  var CommentCollection = Backbone.Collection.extend(
+    /** @lends CommentCollection.prototype */
+    {
+      /**
+       * Sets the allowed type of contained models
+       * @type Backbone.Model
+       */
+      model: CommentModel
+    }
+  );
 
-	return CommentCollection;
+  return CommentCollection;
 });
