@@ -64,11 +64,16 @@ define([
        * @returns {Boolean} Returns false to stop propagation
        */
       submit: function () {
+        const author = this.$el.find('.author').val();
+        const text = this.$el.find('.text').val();
+
+        if (author.length === 0 || text.length === 0) {
+          alert('Both author and text should be filled!');
+          return false;
+        }
+
         // set values from form on model
-        this.model.set({
-          author: this.$el.find('.author').val(),
-          text: this.$el.find('.text').val()
-        });
+        this.model.set({ author, text });
 
         // set an id if model was a new instance
         // note: this is usually done automatically when items are stored in an API
