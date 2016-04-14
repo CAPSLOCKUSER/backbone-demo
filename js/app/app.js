@@ -34,7 +34,14 @@ define([
        */
       initialize: function () {
         // create empty comment collection
-        var collection = new CommentCollection();
+        const getDirectText = el => $(el).clone().children().remove().end().text();
+
+        const $comments = $('ul.commentlist > li');
+        const preRenderedData = $comments.map((index, el) => ({
+          author: $(el).find('strong').text(),
+          text: getDirectText(el).trim(),
+        })).get();
+        var collection = new CommentCollection(preRenderedData);
 
         // bind the NewButtonView to the already rendered 'newcomment' DOM element, we'll need to know the
         // collection to work with so FormView can insert the new comment properly
@@ -44,8 +51,7 @@ define([
         new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
 
         // create comment list view, assign our empty collection
-        var listview = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
-        listview.render();
+        new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
       }
     }
   );
