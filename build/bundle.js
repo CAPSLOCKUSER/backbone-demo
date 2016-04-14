@@ -49,6 +49,22 @@
 	__webpack_require__(1);
 	
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(9), __webpack_require__(10), __webpack_require__(12), __webpack_require__(15), __webpack_require__(16)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, $, CommentCollection, NewButtonView, RandomButtonView, CommentlistView) {
+	
+	  function getDirectText(el) {
+	    return $(el).clone().children().remove().end().text();
+	  }
+	
+	  function getPrerenderedData($collection) {
+	    var $preRenderedData = $collection.map(function (index, el) {
+	      return {
+	        author: $(el).find('strong').text(),
+	        text: getDirectText(el).trim(),
+	        source: el
+	      };
+	    });
+	    return $preRenderedData.get();
+	  }
+	
 	  var App = Backbone.View.extend(
 	  /** @lends App.prototype */
 	  {
@@ -57,18 +73,10 @@
 	     */
 	    initialize: function initialize() {
 	      // create empty comment collection
-	      var getDirectText = function getDirectText(el) {
-	        return $(el).clone().children().remove().end().text();
-	      };
-	
 	      var $comments = $('ul.commentlist > li');
-	      var preRenderedData = $comments.map(function (index, el) {
-	        return {
-	          author: $(el).find('strong').text(),
-	          text: getDirectText(el).trim()
-	        };
-	      }).get();
-	      var collection = new CommentCollection(preRenderedData);
+	      var preRenderedData = getPrerenderedData($comments);
+	      var notPrerenderedData = { author: 'foo', text: 'im not even prerendered' };
+	      var collection = new CommentCollection(preRenderedData.concat(notPrerenderedData));
 	
 	      // bind the NewButtonView to the already rendered 'newcomment' DOM element, we'll need to know the
 	      // collection to work with so FormView can insert the new comment properly
@@ -78,10 +86,10 @@
 	      new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
 	
 	      // create comment list view, assign our empty collection
-	      new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
+	      var commentlistView = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
+	      commentlistView.render();
 	    }
 	  });
-	
 	  /* i'm not sure about this at all */
 	  window.App = App;
 	  window.$ = $;
@@ -25564,30 +25572,56 @@
 	    /**
 	     * Subscribe to collection 'reset' and 'add' events
 	     */
+	
 	    initialize: function initialize() {
-	      this.collection.on('add reset', this.render, this);
+	      this.collection.on('reset', this.reset, this);
+	      this.collection.on('add', this.add, this);
 	    },
+	
 	
 	    /**
 	     * Render comments using CommentView instances for each model in the collection.
 	     * @returns {CommentlistView} Returns the view instance itself, to allow chaining view commands.
 	     */
 	    render: function render() {
+	      var _this = this;
+	
+	      this.collection.each(function (model) {
+	        var isPreRendered = !!model.attributes.source;
+	        if (isPreRendered) {
+	          _this._awakePrerenderedComment(model);
+	        } else {
+	          _this.add(model);
+	        }
+	      });
+	
+	      return this;
+	    },
+	    reset: function reset() {
+	      var _this2 = this;
+	
 	      // first clean up the container
 	      this.$el.empty();
 	
 	      // iterate over models in collection and render comments using the CommentView view class
-	      this.collection.each(function (item) {
-	        // create new CommentView instance
-	        var commentview = new CommentView({
-	          model: item
-	        });
-	
-	        // append rendered CommentView instance to CommentlistViews container
-	        this.$el.append(commentview.render().$el);
-	      }, this);
+	      this.collection.each(function (model) {
+	        return _this2.add(model);
+	      });
 	
 	      return this;
+	    },
+	    add: function add(model) {
+	      // create new CommentView instance
+	      var commentview = new CommentView({ model: model });
+	
+	      // append rendered CommentView instance to CommentlistViews container
+	      this.$el.append(commentview.render().$el);
+	
+	      return this;
+	    },
+	    _awakePrerenderedComment: function _awakePrerenderedComment(model) {
+	      new CommentView({ model: model, el: model.attributes.source });
+	      model.unset('source', { silent: true });
 	    }
 	  });
 	

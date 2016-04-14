@@ -26,6 +26,20 @@ define([
              NewButtonView,
              RandomButtonView,
              CommentlistView) {
+
+  function getDirectText(el) {
+    return $(el).clone().children().remove().end().text();
+  }
+
+  function getPrerenderedData($collection) {
+    const $preRenderedData = $collection.map((index, el) => ({
+      author: $(el).find('strong').text(),
+      text: getDirectText(el).trim(),
+      source: el,
+    }));
+    return $preRenderedData.get();
+  }
+
   var App = Backbone.View.extend(
     /** @lends App.prototype */
     {
@@ -34,14 +48,10 @@ define([
        */
       initialize: function () {
         // create empty comment collection
-        const getDirectText = el => $(el).clone().children().remove().end().text();
-
         const $comments = $('ul.commentlist > li');
-        const preRenderedData = $comments.map((index, el) => ({
-          author: $(el).find('strong').text(),
-          text: getDirectText(el).trim(),
-        })).get();
-        var collection = new CommentCollection(preRenderedData);
+        const preRenderedData = getPrerenderedData($comments);
+        const notPrerenderedData = { author: 'foo', text: 'im not even prerendered' };
+        const collection = new CommentCollection(preRenderedData.concat(notPrerenderedData));
 
         // bind the NewButtonView to the already rendered 'newcomment' DOM element, we'll need to know the
         // collection to work with so FormView can insert the new comment properly
@@ -51,11 +61,11 @@ define([
         new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
 
         // create comment list view, assign our empty collection
-        new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
+        const commentlistView = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
+        commentlistView.render();
       }
     }
   );
-
   /* i'm not sure about this at all */
   window.App = App;
   window.$ = $;
