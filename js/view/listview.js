@@ -50,7 +50,7 @@ define([
 
       _firstRender() {
         this.collection.each(model => {
-          const isPreRendered = !!model.attributes.source;
+          const isPreRendered = !!model.get('source');
           if (isPreRendered) {
             this._awakePrerenderedComment(model);
           } else {
@@ -62,7 +62,7 @@ define([
       },
 
       _awakePrerenderedComment(model) {
-        new CommentView({ model, el: model.attributes.source });
+        new CommentView({ model, el: model.get('source') });
         model.unset('source', { silent: true });
       }
     }
