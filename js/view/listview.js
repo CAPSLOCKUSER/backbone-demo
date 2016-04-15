@@ -18,7 +18,7 @@ define([
        * Subscribe to collection 'reset' and 'add' events
        */
       initialize() {
-        this.collection.on('reset', this.reset, this);
+        this.collection.on('reset', this.render, this);
         this.collection.on('add', this.add, this);
 
         this._firstRender();
