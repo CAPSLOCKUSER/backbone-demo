@@ -90,11 +90,14 @@
 	      commentlistView.render();
 	    }
 	  });
-	  /* i'm not sure about this at all */
-	  window.App = App;
-	  window.$ = $;
 	
-	  //return App;
+	  $(function () {
+	    new App({
+	      el: $('#application')
+	    });
+	  });
+	
+	  return App;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	
 	/**
@@ -24715,7 +24718,7 @@
 	 * @extends Backbone.View
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(11), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, CommentModel, FormView) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(9), __webpack_require__(11), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, $, CommentModel, FormView) {
 	  var NewButtonView = Backbone.View.extend(
 	  /** @lends NewButtonView.prototype */
 	  {
@@ -24788,7 +24791,7 @@
 	 * @extends Backbone.View
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, Mustache) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(9), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, $, Mustache) {
 	  var FormView = Backbone.View.extend(
 	  /** @lends FormView.prototype */
 	  {
@@ -25644,7 +25647,7 @@
 	 * @extends Backbone.View
 	 * @author Bodnar Istvan <istvan@gawker.com>
 	 */
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(14), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, Mustache, FormView) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(9), __webpack_require__(14), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function (Backbone, $, Mustache, FormView) {
 	  'use strict';
 	
 	  var CommentView = Backbone.View.extend(

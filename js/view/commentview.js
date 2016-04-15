@@ -10,9 +10,11 @@
  */
 define([
   'backbone',
+  'jquery',
   'mustache',
   'view/formview'
 ], function (Backbone,
+             $,
              Mustache,
              FormView) {
   'use strict';

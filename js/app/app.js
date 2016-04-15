@@ -66,11 +66,14 @@ define([
       }
     }
   );
-  /* i'm not sure about this at all */
-  window.App = App;
-  window.$ = $;
 
-  //return App;
+  $(() => {
+    new App({
+      el: $('#application')
+    });
+  });
+
+  return App;
 });
 
 /**

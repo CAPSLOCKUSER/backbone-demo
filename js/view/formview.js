@@ -7,8 +7,10 @@
  */
 define([
   'backbone',
+  'jquery',
   'mustache'
 ], function (Backbone,
+             $,
              Mustache) {
   var FormView = Backbone.View.extend(
     /** @lends FormView.prototype */

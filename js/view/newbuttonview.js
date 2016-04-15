@@ -7,9 +7,11 @@
  */
 define([
   'backbone',
+  'jquery',
   'model/commentmodel',
   'view/formview'
 ], function (Backbone,
+             $,
              CommentModel,
              FormView) {
   var NewButtonView = Backbone.View.extend(
