@@ -20,6 +20,8 @@ define([
       initialize() {
         this.collection.on('reset', this.reset, this);
         this.collection.on('add', this.add, this);
+
+        this._firstRender();
       },
 
       /**
@@ -27,19 +29,6 @@ define([
        * @returns {CommentlistView} Returns the view instance itself, to allow chaining view commands.
        */
       render() {
-        this.collection.each(model => {
-          const isPreRendered = !!model.attributes.source;
-          if (isPreRendered) {
-            this._awakePrerenderedComment(model);
-          } else {
-            this.add(model);
-          }
-        });
-
-        return this;
-      },
-
-      reset() {
         // first clean up the container
         this.$el.empty();
 
@@ -55,6 +44,19 @@ define([
 
         // append rendered CommentView instance to CommentlistViews container
         this.$el.append(commentview.render().$el);
+
+        return this;
+      },
+
+      _firstRender() {
+        this.collection.each(model => {
+          const isPreRendered = !!model.attributes.source;
+          if (isPreRendered) {
+            this._awakePrerenderedComment(model);
+          } else {
+            this.add(model);
+          }
+        });
 
         return this;
       },

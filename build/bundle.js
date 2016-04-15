@@ -86,8 +86,7 @@
 	      new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
 	
 	      // create comment list view, assign our empty collection
-	      var commentlistView = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
-	      commentlistView.render();
+	      new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
 	    }
 	  });
 	
@@ -24745,12 +24744,6 @@
 	     * @returns {Boolean} Returns false to stop propagation
 	     */
 	    createComment: function createComment() {
-	      $('.commentform button.cancel').click();
-	
-	      if ($('.commentform').length) {
-	        return false;
-	      }
-	
 	      // create new comment model
 	      var comment = new CommentModel({});
 	
@@ -24831,6 +24824,13 @@
 	     * @returns {FormView} Returns the view instance itself, to allow chaining view commands.
 	     */
 	    render: function render() {
+	
+	      $('.commentform button.cancel').click();
+	
+	      if ($('.commentform').length) {
+	        return false;
+	      }
+	
 	      var template = $('#form-template').text();
 	      var template_vars = {
 	        author: this.model.get('author'),
@@ -25579,6 +25579,8 @@
 	    initialize: function initialize() {
 	      this.collection.on('reset', this.reset, this);
 	      this.collection.on('add', this.add, this);
+	
+	      this._firstRender();
 	    },
 	
 	
@@ -25589,26 +25591,12 @@
 	    render: function render() {
 	      var _this = this;
 	
-	      this.collection.each(function (model) {
-	        var isPreRendered = !!model.attributes.source;
-	        if (isPreRendered) {
-	          _this._awakePrerenderedComment(model);
-	        } else {
-	          _this.add(model);
-	        }
-	      });
-	
-	      return this;
-	    },
-	    reset: function reset() {
-	      var _this2 = this;
-	
 	      // first clean up the container
 	      this.$el.empty();
 	
 	      // iterate over models in collection and render comments using the CommentView view class
 	      this.collection.each(function (model) {
-	        return _this2.add(model);
+	        return _this.add(model);
 	      });
 	
 	      return this;
@@ -25619,6 +25607,20 @@
 	
 	      // append rendered CommentView instance to CommentlistViews container
 	      this.$el.append(commentview.render().$el);
+	
+	      return this;
+	    },
+	    _firstRender: function _firstRender() {
+	      var _this2 = this;
+	
+	      this.collection.each(function (model) {
+	        var isPreRendered = !!model.attributes.source;
+	        if (isPreRendered) {
+	          _this2._awakePrerenderedComment(model);
+	        } else {
+	          _this2.add(model);
+	        }
+	      });
 	
 	      return this;
 	    },

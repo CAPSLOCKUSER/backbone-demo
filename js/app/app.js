@@ -61,8 +61,7 @@ define([
         new RandomButtonView({ collection: collection, el: this.$el.find('.randomcomment') });
 
         // create comment list view, assign our empty collection
-        const commentlistView = new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
-        commentlistView.render();
+        new CommentlistView({ collection: collection, el: this.$el.find('.commentlist') });
       }
     }
   );
