@@ -51,6 +51,13 @@ define([
        * @returns {FormView} Returns the view instance itself, to allow chaining view commands.
        */
       render: function () {
+
+        $('.commentform button.cancel').click();
+
+        if ($('.commentform').length) {
+          return false;
+        }
+
         var template = $('#form-template').text();
         var template_vars = {
           author: this.model.get('author'),
