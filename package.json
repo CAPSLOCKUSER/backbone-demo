@@ -41,6 +41,7 @@
     "webpack": "1.12.15",
     "webpack-manifest-plugin": "1.0.0",
     "webpack-md5-hash": "0.0.5",
+    "webpack-shell-plugin": "^0.4.2",
     "webpack-sources": "0.1.1"
   }
 }
