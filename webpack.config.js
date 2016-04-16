@@ -3,21 +3,24 @@ var webpack = require('webpack');
 var version = require('./package.json').version;
 var PROD = !!JSON.parse(process.env.PRODUCTION || '0');
 
+
+var ManifestPlugin = require('webpack-manifest-plugin');
+var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+var WebpackMd5Hash = require('webpack-md5-hash');
+
 module.exports = {
-  entry: './js/app/app.js',
+  entry: {
+    main: './js/app/app.js',
+    vendor: ['jquery', 'backbone', 'mustache']
+  },
   output: {
     path: './build',
-    filename: 'bundle.js',
-    publicPath: 'build/',
+    filename: '[name].[chunkhash].js',
+    publicPath: 'build/'
   },
   resolve: {
-    // Absolute path that contains modules
     root: __dirname,
-
-    // Directory names to be searched for modules
     modulesDirectories: ['js', 'app', 'view', 'model', 'node_modules', 'css'],
-
-    // Replace modules with other modules or paths for compatibility or convenience
     alias: {
       'underscore': 'lodash'
     }
@@ -42,6 +45,17 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+    }),
+    new WebpackMd5Hash(),
+    new ManifestPlugin(),
+    new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest'
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       __VERSION__: "'" + version + "'",
       __BUILD_DATE__: "'" + new Date() + "'"
