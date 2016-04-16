@@ -1,0 +1,45 @@
+doctype html
+html
+  head
+    title Backbone demo
+    // Embedded templates
+    script#comment-template(type='text/jquery-x-template').
+      <button class="edit">Edit</button>
+      <button class="delete">Delete</button>
+      <button class="reverse">Reverse text</button>
+      <strong>{{author}}</strong><br />
+      {{{text}}}
+    script#form-template(type='text/jquery-x-template').
+      <strong>Comment edit</strong>
+      <form>
+      <input type="text" name="author" value="{{author}}" placeholder="Author name" class="author" /><br />
+      <textarea name="text" placeholder="Comment text" class="text">{{text}}</textarea>
+      <button class="submit"> Submit </button>
+      <button class="cancel"> Cancel </button>
+      </form>
+  body
+    #application
+      a.newcomment.button(href='#') Create new comment
+      a.randomcomment.button(href='#') Create random comments
+      ul.commentlist
+        li.comment
+          button.edit Edit
+          button.delete Delete
+          button.reverse Reverse text
+          strong Bubba
+          br
+          | Neque porro quisquam est
+        li.comment(style='background: red')
+          button.edit Edit
+          button.delete Delete
+          button.reverse Reverse text
+          strong Denton
+          br
+          | prerendered pretty much
+        li.comment
+          button.edit Edit
+          button.delete Delete
+          button.reverse Reverse text
+          strong Hogan
+          br
+          | Nemo enim ipsam voluptatem

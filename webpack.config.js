@@ -1,9 +1,11 @@
 /* eslint-disable */
 var webpack = require('webpack');
+var path = require('path');
+var jade = require('jade');
 var ManifestPlugin = require('webpack-manifest-plugin');
 var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
-var WebpackShellPlugin = require('webpack-shell-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var VERSION = require('./package.json').version;
 var PROD = !!JSON.parse(process.env.PRODUCTION || '0');
@@ -17,11 +19,11 @@ module.exports = {
     path: './build',
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
-    publicPath: 'build/'
+    //publicPath: './build/'
   },
   resolve: {
     root: __dirname,
-    modulesDirectories: ['js', 'app', 'view', 'model', 'node_modules', 'css'],
+    modulesDirectories: ['js', 'app', 'view', 'model', 'node_modules', 'css', 'jade'],
     alias: {
       'underscore': 'lodash'
     }
@@ -42,7 +44,7 @@ module.exports = {
       {
         test: /\.jpg$/,
         loader: 'file-loader'
-      },
+      }
     ]
   },
   plugins: [
@@ -52,17 +54,23 @@ module.exports = {
     }),
     new WebpackMd5Hash(),
     new ManifestPlugin(),
-    new ChunkManifestPlugin({
+    /*new ChunkManifestPlugin({
       filename: 'chunk-manifest.json',
       manifestVariable: 'webpackManifest'
-    }),
+    }),*/
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       __VERSION__: "'" + VERSION + "'",
       __BUILD_DATE__: "'" + new Date() + "'"
     }),
-    new WebpackShellPlugin({
-      onBuildEnd: ['sleep 1 && ./insert_manifest.sh']
+    new HtmlWebpackPlugin({
+      inject: true,
+      minify: false,
+      templateContent: function(templateParams, compilation) {
+        var fn = jade.compileFile(path.resolve('./jade/index.jade'));
+        templateParams.manifest = compilation.assets['manifest.json']._value;
+        return fn(templateParams);
+      }
     })
   ].concat(PROD ? [new webpack.optimize.UglifyJsPlugin({ minimize: true })] : [])
 };
