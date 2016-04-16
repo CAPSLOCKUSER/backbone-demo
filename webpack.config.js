@@ -1,9 +1,6 @@
 /* eslint-disable */
 var webpack = require('webpack');
-var path = require('path');
-var jade = require('jade');
 var ManifestPlugin = require('webpack-manifest-plugin');
-var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -18,12 +15,11 @@ module.exports = {
   output: {
     path: './build',
     filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].js',
-    //publicPath: './build/'
+    chunkFilename: '[name].[chunkhash].js'
   },
   resolve: {
     root: __dirname,
-    modulesDirectories: ['js', 'app', 'view', 'model', 'node_modules', 'css', 'jade'],
+    modulesDirectories: ['js', 'app', 'view', 'model', 'node_modules', 'css'],
     alias: {
       'underscore': 'lodash'
     }
@@ -44,6 +40,10 @@ module.exports = {
       {
         test: /\.jpg$/,
         loader: 'file-loader'
+      },
+      {
+        test: /\.jade$/,
+        loader: 'jade'
       }
     ]
   },
@@ -54,23 +54,14 @@ module.exports = {
     }),
     new WebpackMd5Hash(),
     new ManifestPlugin(),
-    /*new ChunkManifestPlugin({
-      filename: 'chunk-manifest.json',
-      manifestVariable: 'webpackManifest'
-    }),*/
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       __VERSION__: "'" + VERSION + "'",
       __BUILD_DATE__: "'" + new Date() + "'"
     }),
     new HtmlWebpackPlugin({
-      inject: true,
-      minify: false,
-      templateContent: function(templateParams, compilation) {
-        var fn = jade.compileFile(path.resolve('./jade/index.jade'));
-        templateParams.manifest = compilation.assets['manifest.json']._value;
-        return fn(templateParams);
-      }
+      template: './jade/index.jade',
+      filename: 'index.html'
     })
   ].concat(PROD ? [new webpack.optimize.UglifyJsPlugin({ minimize: true })] : [])
 };
